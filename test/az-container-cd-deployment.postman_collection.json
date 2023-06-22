@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "bcee7600-387c-4786-b98a-72d0ecf04a14",
+		"name": "06-az-container-cd-deployment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "21606253"
+	},
+	"item": [
+		{
+			"name": "Local",
+			"item": [
+				{
+					"name": "predict - local",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "query_params",
+									"value": "{\"Modeling_result\":\"model_json_str\",\"Predicted_Results\": \"json_str\",\"algorithm\": \"xgboost\",\"scoring\": \"R2\",\"objective\": \"valid_score\",\"show_shap\": \"True\",\"iteration\": \"200\",\"feature\": [\"NPHI\", \"RHOB\", \"DTC\", \"GR\"],\"Testing_score\": \"score\",\"target\": \"DTS\",\"target2\": \"DTC\"}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "csv_file",
+									"type": "file",
+									"src": "/Users/ducnhuanh/Library/CloudStorage/OneDrive-VIENDAUKHIVIETNAM/workspace/project_vpi/vpi-template/template-project-api-for-azure-container-app/src/app/service/sample_predict/input_sample.csv"
+								}
+							]
+						},
+						"url": "http://0.0.0.0:8017/predict"
+					},
+					"response": []
+				},
+				{
+					"name": "querymart data - local",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://0.0.0.0:8017/hydrogen/FACT_POLICY_CO2_PRICE"
+					},
+					"response": []
+				},
+				{
+					"name": "predict - local",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "query_params",
+									"value": "{\"Modeling_result\":\"model_json_str\",\"Predicted_Results\": \"json_str\",\"algorithm\": \"xgboost\",\"scoring\": \"R2\",\"objective\": \"valid_score\",\"show_shap\": \"True\",\"iteration\": \"200\",\"feature\": [\"NPHI\", \"RHOB\", \"DTC\", \"GR\"],\"Testing_score\": \"score\",\"target\": \"DTS\",\"target2\": \"DTC\"}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "csv_file",
+									"type": "file",
+									"src": "/Users/ducnhuanh/Library/CloudStorage/OneDrive-VIENDAUKHIVIETNAM/workspace/project_vpi/vpi-template/template-project-api-for-azure-container-app/src/app/service/sample_predict/input_sample.csv"
+								}
+							]
+						},
+						"url": "http://0.0.0.0:8017/predict"
+					},
+					"response": []
+				},
+				{
+					"name": "hello-local",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://0.0.0.0:8017/hello"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Azure Container",
+			"item": [
+				{
+					"name": "hello - azure",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_name\": \"doan tien quyet\",\n    \"user_account\": \"quyetdt\",\n    \"user_email\": \"duc.a.nguyen@vpi.pvn.vn\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://my-container-app.happystone-5c2dd31a.westus2.azurecontainerapps.io/hello"
+					},
+					"response": []
+				},
+				{
+					"name": "querymart data - azure",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://my-container-app.happystone-5c2dd31a.westus2.azurecontainerapps.io/hydrogen/FACT_POLICY_CO2_PRICE"
+					},
+					"response": []
+				},
+				{
+					"name": "hello-azure",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://my-container-app--xqlkc2e.internal.happystone-5c2dd31a.westus2.azurecontainerapps.io/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
