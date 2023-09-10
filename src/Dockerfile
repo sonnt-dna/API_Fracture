@@ -23,14 +23,19 @@ RUN curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/so
 RUN apt-get update
 
 # INSTALL ODBC DRIVER
-RUN ACCEPT_EULA=Y apt-get install msodbcsql18 --assume-yes
+RUN ACCEPT_EULA=Y apt-get -y --no-install-recommends install msodbcsql18
 
 # CONFIGURE ENV FOR /bin/bash TO USE MSODBCSQL17
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 
+# Cài đặt psycopg2
+RUN pip install psycopg2-binary
 RUN pip install pyodbc
 RUN pip install sqlalchemy
+RUN pip install retrying
+RUN pip install pandas
+RUN pip install numpy
 RUN pip install Office365-REST-Python-Client
 
 # ---------------------- END OF DATAMART QUERY -------------------------------------------------------------

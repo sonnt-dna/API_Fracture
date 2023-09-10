@@ -5,7 +5,9 @@ import pandas as pd
 import json as json
 import csv
 from io import StringIO
-from .predict_handlers import predict, input_csv_schema, input_params_schema
+from .predict_handlers import predict_fracture
+from typing import List
+
 
 # Create new "APIRouter" object
 predict_router = APIRouter()
@@ -17,8 +19,14 @@ async def read_main():
 
 # Endpoint to predict
 @predict_router.post("/predict", status_code=201)
-async def upload_csv(csv_file: UploadFile = File(...), query_params: str = Form(...)):
-
+async def upload_csv(csv_file: UploadFile = File(...),
+                    feature: str = None,
+                    scoring: str = "R2",
+                    objective: str = "valid_score",
+                    algorithm: str = "xgboost",
+                    iteration: int = None,
+                    target: str = None,
+                    ):
     # Check if the uploaded file is a CSV file
     if csv_file.content_type != "text/csv":
         raise HTTPException(status_code=415, detail="File attached is not a CSV file")
@@ -30,18 +38,8 @@ async def upload_csv(csv_file: UploadFile = File(...), query_params: str = Form(
         raise HTTPException(status_code=400, detail="Invalid CSV file")
     finally:
         csv_file.file.close()
-
-
-    # Validate query_params using QueryParams schema
-    try:
-        # query_params_in_json = json.dumps(query_params)
-        parameter = json.loads(query_params)
-        input_params_schema(**parameter)
-    except ValueError as e:
-        return {"detail": str(e)}
-    except Exception as e:
-        return {"detail": "Invalid JSON"}
-
-    predicted_result = predict(df, parameter)
+    feature_list = feature.split(",") if feature else []
+    # target_list = target.split(",") if target else []
+    predicted_result = predict_fracture(df, feature_list, scoring, objective, algorithm, iteration, target)
 
     return predicted_result
